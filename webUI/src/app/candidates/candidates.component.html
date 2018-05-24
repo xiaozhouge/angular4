@@ -1,0 +1,361 @@
+
+<h1 class="head_title" [@routerTransition]>
+  ESG Candidate Selection
+</h1>
+<nz-modal 
+      [nzVisible]="tx_isVisible" 
+      nzWidth="90%"
+      [nzContent]="tx_modalContent" 
+      [nzOkText]="'ok'"
+      [nzCancelText]="'Cancel'"
+      (nzOnCancel)="tx_handleCancel($event)" 
+      (nzOnOk)="tx_handleOk($event)">
+      <ng-template #tx_modalContent>
+        
+        <div class="qureybody" [@flyIn]>
+
+            <div class="tablehead">
+              <h3 >Doc Name</h3>
+              <h3 >Doc Id</h3>
+              <h3 >Year</h3>
+              <h3 >Filing Date</h3>
+              <h3 >Source Link</h3>
+              <h3>
+                Selected
+                <div>
+                  <label nz-checkbox 
+                    [(ngModel)]="allChecked" 
+                    (ngModelChange)="updateAllChecked()" 
+                    [nzIndeterminate]="indeterminate">
+                  </label>
+                </div>
+              </h3>
+            </div>
+            <div class="table">
+                  <div class="table_list">
+                    <ul *ngFor="let reportlist of doclist index as i" >
+                      <li>
+                        {{reportlist.doc_name}}
+                      </li>
+                      <li>
+                        <a href={{this._link+reportlist.doc_id}}
+                          target="_blank">{{reportlist.doc_id}}
+                        </a>
+                      </li>
+                      <li>{{reportlist.filing_year}}</li>
+                      <li>{{reportlist.filing_date}}</li>
+                      <li>{{reportlist.doc_link}}</li>
+                    </ul>
+                  </div>
+                  <nz-checkbox-group [(ngModel)]="checkOptionsOne" 
+                        (ngModelChange)="updateSingleChecked()"> 
+                  </nz-checkbox-group>
+            </div>
+          </div>
+      </ng-template>
+</nz-modal>
+<nz-modal 
+      [nzVisible]="_isVisible" 
+      nzWidth="90%"
+      [nzContent]="_modalContent" 
+      [nzOkText]="'ok'"
+      [nzCancelText]="'Cancel'"
+      (nzOnCancel)="_handleCancel($event)" 
+      (nzOnOk)="_handleOk($event)"
+      [nzFooter]=false>
+      <ng-template #_modalContent>
+        
+        <div class="qureybody" [@flyIn]>
+
+            <div class="tablehead">
+              <h3 >FCC code</h3>
+              <h3 >description</h3>
+              <h3 >report name</h3>
+              <h3 >textual data</h3>
+              <h3 >rating</h3>
+            </div>
+            <div class="table">
+                  <div class="table_list">
+                    <ul *ngFor="let reportlist of donelist index as i" >
+                      <li>
+                        {{reportlist.fcc_code}}
+                      </li>
+                      <li>
+                        {{reportlist.dp_desc}}
+                      </li>
+                      <li>{{reportlist.reportName}}</li>
+                      <li>{{reportlist.content}}</li>
+                      <li>{{reportlist.rating}}</li>
+                    </ul>
+                  </div>
+            </div>
+          </div>
+      </ng-template>
+</nz-modal>
+ <div class="candidate" >
+    <div class="filer">FCC category
+      <select [(ngModel)]="categorysel">
+        <option >All</option>
+        <option *ngFor="let item of category">{{item}}</option>
+      </select>
+      <button class="reopen" 
+           (click)="reopenDP()">
+          reopen
+      </button>  
+    </div>
+    <div class="tabs" [@flyIn]>
+      <nz-tabset [nzTabPosition]="'top'" 
+                 [nzType]="'card'"  
+                [nzSelectedIndex]="SelectedTabset" > 
+        <nz-tab *ngFor="let tab of tabs">
+          <ng-template #nzTabHeading>
+            {{tab.title}}
+          </ng-template>
+          <div *ngIf="tab.index==1&&source_data">
+            <nz-table #nzTable 
+             [nzDataSource]="source_data_exist" 
+             [nzSize]="small"
+             [nzScroll]="{ y: 240 }"
+             nzIsPagination=false
+             [nzPageSize]="3" nzBordered
+              (nzDataChange)="_displayDataChange($event)" (nzPageIndexChange)="_refreshStatus()"
+              (nzPageSizeChange)="_refreshStatus()">
+               <ng-template #nzFixedHeader 
+               >
+                <thead nz-thead>
+                  <tr>
+                    <th nz-th nzCheckbox>
+                      <label nz-checkbox 
+                      [(ngModel)]="_allChecked" 
+                      [nzIndeterminate]="_indeterminate" (ngModelChange)="_checkAll($event)">
+                      </label>
+                    </th>
+                    <th nz-th [nzWidth]="'15%'" 
+                      >
+                      <span>Category</span>
+                    </th>
+                    <th nz-th [nzWidth]="'15%'">
+                      <span>FCC code</span>
+                    </th>
+                    <th nz-th [nzWidth]="'20%'">
+                      <span>FCC Description</span>
+                    </th>
+                    <th nz-th [nzWidth]="'15%'">
+                      <span>Status</span>
+                    </th>
+                    <th nz-th [nzWidth]="'10%'">
+                      <span>Rating</span>
+                    </th>
+                    <th nz-th [nzWidth]="'25%'">
+                      <span>Comment</span>
+                    </th>
+                  </tr>
+                </thead>
+              </ng-template>
+              <tbody nz-tbody>
+                <tr nz-tbody-tr 
+                  *ngFor="let data of nzTable.data; index as i;"
+                  (click)="changcandidate(data.id,data.status,i)"
+                  [ngClass]="{'text-clicked':i==textClicked,
+                  'not':categorysel!='All'?
+                  (categorysel!=data.category?true:false):false}">
+                  <td nz-td nzCheckbox>
+                    <label nz-checkbox [(ngModel)]="data.checked" 
+                    (ngModelChange)="_refreshStatus($event)">
+                    </label>
+                  </td>
+                  <td nz-td>{{data.category}}</td>
+                  <td nz-td>
+                    <a>{{data.fcc_code}}</a>
+                  </td>
+                  <td nz-td>{{data.dp_desc}}</td>
+                  <td nz-td>{{data.status}}</td>
+                  <td>{{data.rating}}</td>
+                  <td>{{data.comment}}</td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+          <div *ngIf="tab.index==2&&source_data">
+            <nz-table #nzTable 
+            [nzDataSource]="source_data_new" 
+            [nzSize]="small"
+             [nzScroll]="{y: 240}"
+             nzIsPagination=false
+            [nzPageSize]="3"  
+            (nzDataChange)="_displayDataChange($event)" (nzPageIndexChange)="_refreshStatus()"
+              (nzPageSizeChange)="_refreshStatus()">
+              <ng-template #nzFixedHeader [ngIf]="_header&&!_fixHeader">
+                <thead nz-thead>
+                  <tr>
+                    <th nz-th nzCheckbox>
+                      <label nz-checkbox [(ngModel)]="_allChecked" 
+                      [nzIndeterminate]="_indeterminate" (ngModelChange)="_checkAll($event)">
+                      </label>
+                    </th>
+                    <th nz-th [nzWidth]="'15%'" 
+                      >
+                      <span>Category</span>
+                    </th>
+                    <th nz-th [nzWidth]="'15%'">
+                      <span>FCC code</span>
+                    </th>
+                    <th nz-th [nzWidth]="'20%'">
+                      <span>FCC Description</span>
+                    </th>
+                    <th nz-th [nzWidth]="'15%'">
+                      <span>Status</span>
+                    </th>
+                    <th nz-th [nzWidth]="'10%'">
+                      <span>Rating</span>
+                    </th>
+                    <th nz-th [nzWidth]="'25%'">
+                      <span>Comment</span>
+                    </th>
+                  </tr>
+                </thead>
+               </ng-template>
+              <tbody nz-tbody>
+                <tr nz-tbody-tr
+                 *ngFor="let data of nzTable.data; index as i;"
+                  (click)="changcandidate(data.id,data.status,i)"
+                  [ngClass]="{'text-clicked':i==textClicked,
+                  'not':categorysel!='All'?
+                  (categorysel!=data.category?true:false):false}">
+                  <td nz-td nzCheckbox>
+                    <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="_refreshStatus($event)">
+                    </label>
+                  </td>
+                  <td nz-td>{{data.category}}</td>
+                  <td nz-td>
+                    <a>{{data.fcc_code}}</a>
+                  </td>
+                  <td nz-td>{{data.dp_desc}}</td>
+                  <td nz-td>{{data.status}}</td>
+                  <td>{{data.rating}}</td>
+                  <td>{{data.comment}}</td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </nz-tab>
+      </nz-tabset>
+      <nz-tabset  
+         [nzTabPosition]="'top'" 
+         [nzSelectedIndex]="selectTab" 
+         [nzType]="'card'">
+        <nz-tab *ngFor="let tab of tabss; index as i"
+          (nzClick)="heightLightWord(tab.content,tab.doc_id,tab.page_num)"
+          >
+          <ng-template #nzTabHeading>
+            {{i<tabss_len?"C"+(i+1):"new C"}}
+          </ng-template>
+          <div  class="candidate_head">
+            <ul >
+              <li *ngIf="i<tabss_len">
+                Score
+                <nz-input nzDisabled="true" 
+                [(ngModel)]="tab.score" 
+               ></nz-input>
+              </li>
+              <li>
+                 Source Name
+                 <nz-input nzDisabled="true" 
+                 [(ngModel)]="tab.title"
+                 ></nz-input>
+              </li>
+              <li>
+                  Page No
+                  <nz-input 
+                  nzDisabled='{{i<tabss_len}}'
+                  [(ngModel)]="tab.page_num" 
+                  >12</nz-input>
+              </li>
+            </ul>
+            <ul class="candidate_body">
+                <li>
+                    Source Link
+                    <nz-input  
+                      nzDisabled="{{statu=='Done'}}"
+                      
+                      [(ngModel)]="tab.link">
+                    </nz-input>
+                 </li>
+                 <li>
+                    <span>Textual Data</span>
+                     <textarea nz-input 
+                     nzDisabled="{{statu=='Done'}}" 
+                     [(ngModel)]="tab.content"
+                     [nzAutosize]="{ minRows: 3, maxRows: 6 }">
+                     </textarea>
+                 </li>
+                 <li>
+                    Comment
+                    <nz-input 
+                     [(ngModel)]="tab.comment"
+                     nzDisabled="{{statu=='Done'}}" 
+                    ></nz-input>
+                </li>
+            </ul>
+            <ul class="candidate_scope">
+                <li>
+                  Scope 
+                  <select [(ngModel)]="tab.scope" 
+                      disabled="{{statu=='Done'}}">
+                    <option>Global</option>
+                    <option>segment</option>
+                  </select>
+                </li>
+                <li>
+                   Rating
+                  <select [(ngModel)]="tab.fcc_value" 
+                      disabled="{{statu=='Done'}}">
+                    <option>yes</option>
+                    <option>no</option>
+                    <option>N/A</option>
+                  </select>
+                </li>
+                <li>
+                    <button nz-button nzType="primary" *ngIf="statu=='Todo'&&confirmshow"
+                    (click)="confirm(tab)">
+                      Confirm
+                    </button>
+                </li>
+            </ul>
+          </div>
+
+        </nz-tab>
+      </nz-tabset>
+      
+    </div>
+    <div class="report">
+      <div class="mock" *ngIf="mockLoading">
+        <nz-spin [nzSize]="'large'"></nz-spin>
+      </div>
+      <iframe
+      id="myiframe" 
+        [src]=" frameU | safe" frameborder="0">
+      </iframe>
+      <button nz-button nzType="primary"
+      (click)="lookdonelist()">
+        done
+      </button>
+    </div>
+  </div>
+
+<!-- <div class="candidate_foot">
+  <ul>
+      <li>
+         final Value
+        <nz-input  [nzPlaceHolder]="123">12</nz-input>
+      </li>
+     <li>
+        <button nz-button nzType="primary">
+          Confirm
+      </button>
+     </li>
+  </ul>
+  <button nz-button nzType="primary">
+    done
+  </button>
+</div> -->

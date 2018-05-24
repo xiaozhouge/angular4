@@ -1,0 +1,212 @@
+<h1 class="head_title" [@routerTransition]>
+  Filing Report Management
+</h1>
+<nz-modal 
+      [nzVisible]="tx_isVisible" 
+      [nzTitle]="'warning'" 
+      [nzContent]="tx_modalContent" 
+      [nzOkText]="'leave'"
+      [nzCancelText]="'Cancel'"
+      (nzOnCancel)="tx_handleCancel($event)" 
+      (nzOnOk)="tx_handleOk($event)">
+      <ng-template #tx_modalContent>
+        <p>Are you sure you want to leave?</p>
+        <p>Please go to submit,Otherwise Your page will not be retained after leaving</p>
+      </ng-template>
+</nz-modal>
+<nz-modal 
+      [nzVisible]="list_isVisible" 
+      nzWidth="90%"
+      [nzContent]="list_modalContent" 
+      [nzOkText]="'ok'"
+      [nzCancelText]="'Cancel'"
+      (nzOnCancel)="list_handleCancel($event)" 
+      (nzOnOk)="list_handleOk($event)">
+      <ng-template #list_modalContent>
+        
+        <div class="qureybodymodel" [@flyIn]>
+
+            <div class="tablehead">
+              <h3 >Doc Name</h3>
+              <h3 >Doc Id</h3>
+              <h3 >Year</h3>
+              <h3 >Filing Date</h3>
+              <h3 >Doc Link</h3>
+            </div>
+            <div class="table">
+                  <div class="table_list">
+                    <ul *ngFor="let reportlist of doclist index as i" >
+                      <li>
+                        {{reportlist.doc_name}}
+                      </li>
+                      <li>{{reportlist.doc_id}}
+                      </li>
+                      <li>{{reportlist.filing_year}}</li>
+                      <li>{{reportlist.filing_date}}</li>
+                      <li>{{reportlist.doc_link}}</li>
+                    </ul>
+                  </div>
+            </div>
+          </div>
+      </ng-template>
+</nz-modal>
+<div class="query" >
+  <div class="qureyhead" [@slideToRight]>
+    <ul>
+      <li>
+        <span>CompanyId:</span>
+        <nz-input [nzPlaceHolder]="'18212'" 
+          [(ngModel)]="orgID">
+          <ng-template #prefix>
+            <i class="anticon anticon-search"></i>
+          </ng-template>
+        </nz-input>
+      </li>
+      <li>
+        Year :
+        <select [(ngModel)]="year">
+          <option>2018</option>
+          <option>2017</option>
+          <option>2016</option>
+          <option>2015</option>
+        </select>
+        <!-- to -->
+        <!-- <select [(ngModel)]="toyear" (change)="alt()">
+          <option selected>2018</option>
+          <option>2017</option>
+          <option>2016</option>
+        </select> -->
+      </li>
+      <li *ngIf="reportslist&&reportslist.length>0" [@flyIn]>
+        <span>Company Name:</span>
+        <nz-input nzDisabled="true"
+          [(ngModel)]="reportslist[0].company_name">
+          <ng-template #prefix>
+            <i class="anticon "></i>
+          </ng-template>
+        </nz-input>
+      </li>
+    </ul>
+    <button nz-button nzType="primary" 
+     (click)="queryreport()" >
+      query
+    </button>
+  </div>
+  <div class="qureybody" [@flyIn]>
+    <nz-modal [nzVisible]="isVisible" 
+              [nzTitle]="'Update Meta Data of Filing Report'"
+              [nzOkText]="'Update'"
+              [nzCancelText]="'Cancel'"
+              [nzContent]="modalContent" 
+              (nzOnCancel)="handleCancel($event)" 
+              (nzOnOk)="handleOk($event)">
+        <ng-template #modalContent>
+          <ul >
+            <li>
+                <p>
+                   <span>org ID</span>
+                   <nz-input nzDisabled="true" 
+                   [(ngModel)]="orgID"></nz-input>
+                </p>
+                <p>
+                  <span>Doc Id</span>
+                  <nz-input  nzDisabled="true"
+                  [(ngModel)]="setdata_doc_id">
+                  </nz-input>
+                </p>
+            </li>
+            <li>
+                <p>
+                  <span>Year</span>
+                   <nz-input nzDisabled="true"
+                   [(ngModel)]="setdata_filing_year">
+                   </nz-input>
+                </p>
+                <p>
+                  <span>Fling Date</span>
+                  <nz-input nzDisabled="true"
+                   [(ngModel)]="setdata_filing_date">
+                  </nz-input>
+                </p>
+            </li>
+            <li >
+                  <span>Doc Name</span>
+                  <nz-input 
+                  [(ngModel)]="setdata_doc_name">
+                    
+                  </nz-input>
+            </li>
+            <li>
+                  <span>Doc Link</span>
+                  <nz-input  [(ngModel)]="setdata_doc_link">
+
+                  </nz-input>
+            </li>
+          </ul>
+        </ng-template>
+    </nz-modal>
+    <div class="tablehead">
+      <h3 >Doc Name</h3>
+      <h3 >Doc Id</h3>
+      <h3 >Year</h3>
+      <!-- <h3>Submission Type</h3>
+      <h3>Source Type</h3> -->
+      <h3 >Filing Date</h3>
+      <h3 >Doc Link</h3>
+      <h3>
+        Selected
+        <div>
+          <label nz-checkbox 
+            [(ngModel)]="allChecked" 
+            (ngModelChange)="updateAllChecked()" 
+            [nzIndeterminate]="indeterminate">
+          </label>
+        </div>
+      </h3>
+    </div>
+    <div class="table">
+          <div class="table_list">
+            <ul *ngFor="let reportlist of reportslist index as i" >
+              <li (click)="showModal(i)">
+                {{reportlist.doc_name}}
+                <i class="anticon anticon-edit"></i>
+              </li>
+              <li>
+                <a href={{this._link+reportlist.doc_id}}
+                 target="_blank">{{reportlist.doc_id}}</a>
+              </li>
+              <li>{{reportlist.filing_year}}</li>
+              <!-- <li>{{reportlist.dcn}}</li> -->
+              <!-- <li>{{reportlist.source_type}}</li> -->
+              <li>{{reportlist.filing_date}}</li>
+              <li><a [href]="reportlist.doc_link" target="_blank">{{reportlist.doc_link}}</a></li>
+            </ul>
+          </div>
+          <nz-checkbox-group [(ngModel)]="checkOptionsOne" 
+                (ngModelChange)="updateSingleChecked()"> 
+          </nz-checkbox-group>
+    </div>
+    <nz-spin *ngIf="loading" [nzSize]="'large'"></nz-spin>
+    
+  </div>
+  <div class="qureyfoot">
+    <div>
+      <span>DocId:</span>
+      <nz-input [nzPlaceHolder]="'45483766'" 
+        [(ngModel)]="docID">
+        <ng-template #prefix>
+          <i class="anticon anticon-search"></i>
+        </ng-template>
+      </nz-input>
+      <button nz-button nzType="primary" (click)="addnew()">
+        Add new report
+      </button>
+    </div>
+    <button nz-button nzType="primary"
+     (click)="submitDoc()"
+     >
+     <!-- (click)="torequestmanagement" -->
+      Submit to engine
+    </button>
+  </div>
+</div>

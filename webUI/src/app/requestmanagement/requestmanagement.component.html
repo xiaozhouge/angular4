@@ -1,0 +1,141 @@
+<h1 class="head_title" [@routerTransition]>
+  ESG Request Management
+</h1>
+<nz-modal 
+      [nzVisible]="tx_isVisible" 
+      nzWidth="90%"
+      [nzContent]="tx_modalContent" 
+      [nzOkText]="'ok'"
+      [nzCancelText]="'Cancel'"
+      (nzOnCancel)="tx_handleCancel($event)" 
+      (nzOnOk)="tx_handleOk($event)"
+      [nzFooter]=false>
+      <ng-template #tx_modalContent>
+        
+        <div class="qureybody" [@flyIn]>
+
+            <div class="tablehead">
+              <h3 >Doc Name</h3>
+              <h3 >Doc Id</h3>
+              <h3 >Year</h3>
+              <h3 >Filing Date</h3>
+              <h3 >Doc Link</h3>
+            </div>
+            <div class="table">
+                  <div class="table_list">
+                    <ul *ngFor="let reportlist of doclist index as i" >
+                      <li>
+                        {{reportlist.doc_name}}
+                      </li>
+                      <li>
+                        {{reportlist.doc_id}}
+                      </li>
+                      <li>{{reportlist.filing_year}}</li>
+                      <li>{{reportlist.filing_date}}</li>
+                      <li>{{reportlist.doc_link}}</li>
+                    </ul>
+                  </div>
+            </div>
+          </div>
+      </ng-template>
+</nz-modal>
+<div class="request">
+  <div class="qureyhead">
+    <ul>
+      <li>
+        <span>Status:</span>
+        <select [(ngModel)]="status">
+          <option>all </option>
+          <option>open </option>
+          <option>generated</option>
+          <option>in-progress </option>
+          <option>done</option>
+          <option>close</option>
+        </select>
+      </li>
+      <li>
+        Status Date :
+        <nz-datepicker style="width: 30%;" 
+        nzMode="day"
+        nzFormat="YYYY-MM-DD"
+        (ngModelChange)="_startDate=$event;
+        _startValueChange()" 
+        [ngModel]="_startDate" 
+        [nzDisabledDate]="_disabledStartDate"  
+        [nzPlaceHolder]="'Start date'">
+          
+        </nz-datepicker>
+	    to
+	    <nz-datepicker style="width: 30%;" 
+      nzMode="day"
+      nzFormat="YYYY-MM-DD"
+      (ngModelChange)="_endDate=$event;
+      _endValueChange()" 
+      [ngModel]="_endDate" 
+      [nzDisabledDate]="_disabledEndDate" 
+      [nzPlaceHolder]="'End date'"></nz-datepicker>
+      </li>
+    </ul>
+    <button nz-button nzType="primary" 
+     (click)="queryreport()" >
+      query
+    </button>
+  </div>
+  <div class="qureybody">
+    <div class="tablehead">
+      <h3>Request Id</h3>
+      <h3>Company Name</h3>
+      <h3>Org Id</h3>
+      <!-- <h3>ESG Report ID</h3> -->
+      <h3>Status</h3>
+      <h3>Status Date</h3>
+      <h3>
+        Selected
+        <div>
+          <label nz-checkbox 
+            [(ngModel)]="allChecked" 
+            (ngModelChange)="updateAllChecked()" 
+            [nzIndeterminate]="indeterminate">
+          </label>
+        </div>
+      </h3>
+    </div>
+    <nz-spin *ngIf="loading" [nzSize]="'large'"></nz-spin>
+    <div class="table" [@flyIn]>
+          <div class="table_list">
+            <ul  *ngFor="let reportlist of reportslist" 
+                  
+                >
+              <li (click)="lookdoclist(reportlist.id)">
+                {{reportlist.id}}
+              </li>
+              <li>{{reportlist.company_name}}</li>
+              <li>{{reportlist.org_id}}</li>
+              <!-- <li>{{reportlist.dcn}}</li> -->
+              <!-- <li>{{reportlist.source_type}}</li> -->
+              <li>{{reportlist.status}}</li>
+              <li>{{reportlist.time}}</li>
+            </ul>
+          </div>
+          <nz-checkbox-group [(ngModel)]="checkOptionsOne" 
+                (ngModelChange)="updateSingleChecked()"> 
+          </nz-checkbox-group>
+    </div>
+    
+    
+  </div>
+  <div class="qureyfoot">
+	<button nz-button nzType="primary"
+    (click)="gocandidates()"
+     >
+      <!-- routerLink="/candidates" -->
+	   Open
+	</button>
+	<button nz-button nzType="primary" >
+	  Send to TRF
+	</button>
+    <button nz-button nzType="primary" >
+      Delete
+    </button>
+  </div>
+</div>

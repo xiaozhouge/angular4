@@ -1,0 +1,15 @@
+const fs = require('fs');
+let str='';
+fs.readFile('./dist/index.html', 'utf-8', (err, data) => {
+    if (err) {
+        console.log(err)
+    }
+    str+=data.replace(/src="/g, 'src="../static/')
+        .replace(/href="/g, 'href="../static/')
+        .replace(/href="..\/static\/\//,'href="/');
+    fs.writeFile('./dist/index.html',str, (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    });
+})
+

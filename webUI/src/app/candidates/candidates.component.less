@@ -1,0 +1,227 @@
+    
+.candidate{
+    margin:0 66px;
+    display: flex;
+    align-items: center;
+    height: 600px;
+    position: relative;
+    // padding: 30px 30px;
+    .filer{
+            position: absolute;
+            top: -30px;
+            left: 0;
+            display: flex;
+            margin:10px 0;
+            width: 66.6%;
+            select{
+                margin-left: 10px;
+            }
+            .reopen{
+                position: absolute;
+                top: 0;
+                right: 5%;
+            }
+    }
+    
+    .tabs{
+        flex: 2;
+        height: 100%;
+        >nz-tabset{
+            width: 95%;
+            position: relative;
+            span{
+                display: flex;
+                justify-content: center;
+            }
+
+        }
+        >nz-tabset:first-child{
+            margin-bottom: 20px;
+            th,td{
+                text-align: center;
+            }
+        }
+        >nz-tabset:nth-child(2){
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 3px;
+            .candidate_head{
+                font-weight: bold;
+                ul:first-child{
+                    display: flex;
+                    height: 30px;
+                    li{
+                        flex: 1;
+                        display: flex;
+                        height: 100%;
+                        align-items: center;
+                        nz-input{
+                            width: 60%;
+                            margin-left: 10px;
+                            height: 90%;
+                            padding-left: 5px;
+                        }
+                    }
+                    li:nth-child(2){
+                        flex: 2;
+                        nz-input{
+                            width: 70%;
+                        }
+                    }
+                    li:nth-child(3){
+                        justify-content: flex-end;
+                    }
+                }
+                .candidate_body{
+                    >li{
+                        display: flex;
+                        justify-content: space-between;
+                        margin-top: 10px;
+                        align-items: center;
+                        span{
+                            white-space: nowrap;
+                        }
+                        nz-input{
+                            flex: 1;
+                            margin-left: 10px;
+                            height: 90%;
+                        }
+                    }
+                }
+                ul:last-child{
+                    display: flex;
+                    height: 30px;
+                    margin-top: 10px;
+                    li{
+                        flex: 1;
+                        display: flex;
+                        height: 100%;
+                        align-items: center;
+                        nz-input{
+                            width: 40%;
+                            margin-left: 10px;
+                            height: 90%;
+                            padding-left: 5px;
+                        }
+                        select{
+                            padding: 0 6px;
+                            height: 80%;
+                            margin: 0 5px;
+                            border-radius: 4px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .report{
+        flex: 1;
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        align-items: flex-end;
+        position: relative;
+        // border: 1px solid #eee;
+        .mock{
+            position: absolute;
+            background: #ccc;
+            top: 0;
+            left: 0;
+            height: 95%;
+            margin-bottom: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        iframe{
+            height: 95%;
+            margin-bottom: 10px;
+            width: 100%;
+            border: 1px solid #eee;
+        }
+    }
+}
+.qureybody{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 20px 0;
+        position: relative;
+        >.tablehead{
+            display: flex;
+            height: 50px;
+            border-left: 1px solid #e9e9e9;
+            border-top: 1px solid #e9e9e9;
+            h3{
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                margin: 0;
+                background: #f7f7f7;
+                align-items: center;
+                border-right: 1px solid #e9e9e9;
+                border-bottom: 1px solid #e9e9e9;
+            } 
+        }
+        >.table{
+            display: flex;
+            >.table_list{
+                flex: 5;
+                >ul{
+                    display: flex;
+                    border-left: 1px solid #e9e9e9;
+                    >li{
+                        flex: 1;
+                        display: flex;
+                        height: 40px;
+                        justify-content: center;
+                        align-items: center;
+                        // background: burlywood;
+                        border-right: 1px solid #e9e9e9;
+                        border-bottom: 1px solid #e9e9e9;
+                        overflow: hidden;
+                        a{
+                            width: 100%;
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                    }
+                }
+                >ul:hover{
+                    background: #eee;
+                }
+            }
+            nz-checkbox-group{
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
+            
+        }
+    }
+.candidate_foot{
+    margin:0 66px 66px 66px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    ul{
+        width: 40%;
+        display: flex;
+        li{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            nz-input{
+                flex: 1;
+                margin-left: 10px;
+            }
+        }
+    }
+}
+.text-clicked{
+    background: yellow;
+}

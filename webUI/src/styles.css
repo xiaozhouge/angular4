@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+body,
+div,
+ul,
+li,
+img,
+ol {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+.head_title {
+  margin: 20px;
+  font-size: 45px;
+  padding-bottom: 20px;
+  margin-top: 30px;
+  margin-left: 66px;
+  border-bottom: 1px dashed #eee;
+  font-weight: 500;
+}
+.ant-pagination.ant-table-pagination {
+  display: none;
+}

@@ -1,0 +1,118 @@
+.query {
+  margin: 0 66px 66px 66px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.query > .qureyhead {
+  display: flex;
+  width: 100%;
+  padding: 20px 0;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+.query > .qureyhead > ul {
+  display: flex;
+}
+.query > .qureyhead > ul input {
+  height: 30px;
+  margin: 0 5px;
+  padding: 0 6px;
+}
+.query > .qureyhead > ul select {
+  height: 100%;
+  padding: 0  6px;
+  margin: 0 5px;
+  border-radius: 4px;
+}
+.query > .qureyhead > ul li:first-child {
+  margin-right: 50px;
+  display: flex;
+  align-items: center;
+}
+.query > .qureyhead > ul li:first-child span {
+  padding-right: 5px;
+}
+.query > .qureyhead button {
+  height: 30px;
+  font-weight: bold;
+}
+.query > .qureybody {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px 0;
+  position: relative;
+}
+.query > .qureybody textarea {
+  width: 100%;
+}
+.query > .qureybody .model {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.query > .qureybody > .tablehead {
+  display: flex;
+  height: 50px;
+  border-left: 1px solid #e9e9e9;
+  border-top: 1px solid #e9e9e9;
+}
+.query > .qureybody > .tablehead h3 {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  background: #f7f7f7;
+  align-items: center;
+  border-right: 1px solid #e9e9e9;
+  border-bottom: 1px solid #e9e9e9;
+}
+.query > .qureybody > ul {
+  display: flex;
+  border-left: 1px solid #e9e9e9;
+}
+.query > .qureybody > ul > li {
+  flex: 1;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid #e9e9e9;
+  border-bottom: 1px solid #e9e9e9;
+}
+.query > .qureybody > ul > li:first-child {
+  cursor: pointer;
+  line-height: 40px;
+}
+.query > .qureybody > ul:hover {
+  background: #eee;
+}
+.query .qureyfoot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 30px 0;
+  height: 30px;
+  font-weight: bold;
+}
+.query .qureyfoot > div {
+  height: 30px;
+  display: flex;
+  line-height: 30px;
+}
+.query .qureyfoot > div span {
+  margin-right: 10px;
+}
+.query .qureyfoot > div button {
+  height: 100%;
+  padding: 0 6px;
+  margin: 0 10px;
+  font-weight: bold;
+}
+.query .qureyfoot > button {
+  font-weight: bold;
+}
